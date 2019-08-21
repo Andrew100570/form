@@ -1,0 +1,270 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+
+{#        {% for country in countries %}#}
+{#                <h1>{{ country.id }}</h1>#}
+
+{#        {% endfor %}#}
+
+
+
+   <script>
+       jQuery(document).ready(function () {
+           var searchRequest = null;
+           $("#doer-town").keyup(function () {
+               var minlength = 3;
+               var that = this;
+               var value = $(this).val();
+               var entitySelector = $("#result").html('');
+               if (value.length >= minlength) {
+                   if (searchRequest != null)
+                       searchRequest.abort();
+                   searchRequest = $.ajax({
+                       type: "GET",
+                       url: "{{ path('ajax_search') }}",
+                       data: {
+                           'q': value
+                       },
+                       dataType: "text",
+                       success: function (msg) {
+                           //we need to check if the value is the same
+                           if (value === $(that).val()) {
+                               var result = JSON.parse(msg);
+                               $.each(result, function (key, arr) {
+                                   $.each(arr, function (id, value) {
+
+                                           if (id !== 'error') {
+                                               console.log(value[1]);
+                                               entitySelector.append('<li>' + value + '</li>');
+                                           } else {
+                                               entitySelector.append('<li class="errorLi">' + value + '</li>');
+                                           }
+
+                                   });
+                               });
+                           }
+                       }
+                   });
+               }
+           });
+       });
+   </script>
+    <script>
+
+
+               jQuery(document).ready(function () {
+            var searchRequest = null;
+            $("#doer-heading").keyup(function () {
+
+                var minlength = 3;
+                var that = this;
+                var value = $(this).val();
+                var entitySelector = $("#results").html('');
+                if (value.length >= minlength) {
+
+                    if (searchRequest != null)
+                        searchRequest.abort();
+                    searchRequest = $.ajax({
+                        type: "GET",
+                        url: "{{ path('ajax_rubrika') }}",
+                        data: {
+                            'q': value
+                        },
+                        dataType: "text",
+                        success: function (msg) {
+                            //we need to check if the value is the same
+                            if (value === $(that).val()) {
+                                var result = JSON.parse(msg);
+                                $.each(result, function (key, arr) {
+                                    $.each(arr, function (id, value) {
+
+                                        if (id !== 'error') {
+                                            console.log(value);
+                                            entitySelector.append('<li>' + value + '</li>');
+                                        } else {
+                                            entitySelector.append('<li class="errorLi">' + value + '</li>');
+                                        }
+
+                                    });
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+
+    </script>
+
+    <main class="main-content" id="main-content">
+
+        <section class="section section-step3" id="sign-up">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-12 col-md-12 col-lg-5">
+                        <div class="section__title">
+                            <h2>Регистрация</h2>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-7">
+                        <ul class="list-unstyled list-tabs">
+                            <li class="active"><a href="#doer-tab">Исполнитель</a></li>
+                            <li><a href="#customer-tab">Заказчик</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+
+                    <div class="tab-pane fade in active" id="doer-tab">
+                        {{ form_start(form,{'action': '/country/',
+                            'attr': {'novalidate':'novalidate'}}) }}
+{#                        <form name="form-doer" method="post" id="form_click" action="">#}
+
+                            <div class="row justify-content-between">
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+{#                                        <label class="form-label" for="doer-email">Email</label>#}
+{#                                        <input class="form-control error" type="email" id="doer-email" name="doer-email" placeholder="Введите email"  required>#}
+{#                                        <div class="form-validator"> Неккоректно введён e-mail</div>#}
+                                        {{ form_label(form.email, 'Email', {
+                                            'label_attr': {'class': 'form-label'}
+                                        }) }}
+                                        {{ form_widget(form.email, {'id': 'doer-email','required' : false,'attr': {'class': 'form-control error',
+
+                                        }
+
+                                        }) }}
+                                        {{ form_errors(form.email) }}
+                                        {{ form_row(form.email) }}
+
+
+{#                                            'full_name': 'doer-email',#}
+
+                                        <ul id="search_id"></ul>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+{#                                        <label class="form-label" for="doer-tel">Телефон</label>#}
+{#                                        <input class="form-control" type="tel" id="doer-tel" name="doer-tel" placeholder="Введите телефон" required>#}
+{#                                        <div class="form-validator"></div>#}
+                                        {{ form_label(form.phone, 'Телефон', {
+                                            'label_attr': {'class': 'form-label'}
+                                        }) }}
+
+                                        {{ form_widget(form.phone, {'id': 'doer-tel','required' : false,'attr': {'class': 'form-control'} }) }}
+{#                                            'full_name': 'doer-tel',#}
+
+                                        {{ form_errors(form.phone) }}
+                                        {{ form_row(form.phone) }}
+
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+{#                                        <label class="form-label" for="doer-town">Город</label>#}
+{#                                        <input class="form-control form-control-town" type="text" id="doer-town" name="doer-town" placeholder="Введите город"   required>#}
+                                        {{ form_label(form.city, 'Город', {
+                                            'label_attr': {'class': 'form-label','for': 'doer-town'}
+                                        }) }}
+
+                                        {{ form_widget(form.city, { 'id': 'doer-town','attr': {'class': 'form-control form-control-town'} }) }}
+{#                                            'full_name': 'doer-town',#}
+                                        {{ form_errors(form.city) }}
+                                        {{ form_row(form.city) }}
+
+                                        <ul class="search_result" style="position:absolute;background: black;z-index:1000" id="result"></ul>
+                                        <div class="form-validator"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+{#                                        <label class="form-label" for="doer-heading">Рубрика</label>#}
+
+{#                                        <select class="form-select select2 form-control-rubrika" id="doer-heading" name="doer-heading"  multiple>#}
+                                            {{ form_label(form.rubric, 'Рубрика', {
+                                                'label_attr': {'class': 'form-label','for': 'doer-town'}
+                                            }) }}
+                                            {{ form_widget(form.rubric, {'id': 'doer-heading',  'attr': {'class': 'select2-search__field form-control-rubrika form-control'} }) }}
+{#                                                'full_name': 'doer-heading',#}
+                                        {{ form_errors(form.rubric) }}
+                                        {{ form_row(form.rubric) }}
+                                        <ul class="search_results" style="position:absolute;background: black;z-index:1000" id="results"></ul>
+                                            <!--<input  type="text"  name="rubrika" placeholder="Введите рурику"  required>-->
+
+{#                                        </select>#}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-sm-6">
+{#                                    <button name="submit" class="btn d-block" type="submit" >Зарегистрироваться</button>#}
+                                    <input type="submit" value="Зарегистрироваться" class="btn d-block" name="submit"/>
+                                </div>
+                            </div>
+{#                        </form>#}
+                        {{ form_end(form) }}
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="country-block" onclick="calculate('countcalc')";>
+                                    {% for counterBels in counterBel %}
+                                 <div class="count" id="countcalc" >{{ counterBels.belCount }}</div>
+                                    {% endfor %}
+                                    <div class="descr" >Исполнителей из <span class="country">Беларуси</span></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="country-block" onclick="calculate('countcalRuss')";>
+                                    {% for counterRuss in counterRus %}
+                                        <div class="count" id="countcalc" >{{ counterRuss.rusCount }}</div>
+                                    {% endfor %}
+                                    <div class="descr">Исполнителей из <span class="country">России</span></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="country-block" onclick="calculate('countcalYkr')";>
+                                    {% for counterYkrs in counterYkr %}
+                                        <div class="count" id="countcalYkr">{{ counterYkrs.ykrCount }}</div>
+                                    {% endfor %}
+                                    <div class="descr">Исполнителей из <span class="country">Украины</span></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="country-block" onclick="calculate('countcalKz')";>
+                                    {% for counterKazs in counterKaz %}
+                                        <div class="count" id="countcalKz">{{ counterKazs.kazCount }}</div>
+                                    {% endfor %}
+
+                                    <div class="descr">Исполнителей из <span class="country">Казахстана</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-label="Сообщение" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <p>Регистрация прошла успешно!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+
+{% endblock %}

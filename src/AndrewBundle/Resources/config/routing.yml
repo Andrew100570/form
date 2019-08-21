@@ -1,0 +1,7 @@
+andrew_post:
+    resource: "@AndrewBundle/Resources/config/routing/post.yml"
+    prefix:   /post
+
+andrew_homepage:
+    path:     /
+    defaults: { _controller: AndrewBundle:Default:index }

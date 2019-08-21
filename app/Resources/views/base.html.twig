@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta content="Sprava.mobi" name="description"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="format-detection" content="telephone=no"/>
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <script src="{{ asset('bundles/test/js/jquery-3.3.1.min.js') }}"></script>
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('bundles/test/css/main.css') }} " rel="stylesheet"/>
+        {% endblock %}
+
+
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('bundles/test/js/jquery-3.3.1.min.js') }}"></script>
+            <script src="{{ asset('bundles/test/js/core-dist.js') }}"></script>
+            <script src="{{ asset('bundles/test/js/main.js') }}"></script>
+            <script src="{{ asset('bundles/test/js/search.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

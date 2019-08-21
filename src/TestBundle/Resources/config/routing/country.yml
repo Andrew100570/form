@@ -1,0 +1,41 @@
+country_index:
+    path:     /
+    defaults: { _controller: "TestBundle:Country:index" }
+    methods:  [GET, POST]
+
+country_show:
+    path:     /{id}/show
+    defaults: { _controller: "TestBundle:Country:show" }
+    methods:  GET
+
+country_new:
+    path:     /new
+    defaults: { _controller: "TestBundle:Country:new" }
+    methods:  [GET, POST]
+
+country_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "TestBundle:Country:edit" }
+    methods:  [GET, POST]
+
+country_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "TestBundle:Country:delete" }
+    methods:  DELETE
+
+ajax_search:
+    path:     /search
+    defaults: { _controller: "TestBundle:Country:search" }
+    methods:  [GET, POST]
+
+ajax_rubrika:
+    path:     /rubrika
+    defaults: { _controller: "TestBundle:Country:rubrika" }
+    methods:  [GET, POST]
+
+
+
+
+
+
+

@@ -1,0 +1,7 @@
+test_country:
+    resource: "@TestBundle/Resources/config/routing/country.yml"
+    prefix:   /country
+
+test_homepage:
+    path:     /
+    defaults: { _controller: TestBundle:Default:index }
